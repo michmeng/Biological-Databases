@@ -1,0 +1,36 @@
+def cat(text):
+    total_len = 0
+    sequences = []
+    add = ""
+    length = 0
+    while len(text) > 0:
+        if text[0][0] == ">":
+            add = ""
+            length = 0
+            add = add + text[0]
+        else:
+            if len(text) > 1:
+                if text[1][0] != ">":
+                    length = length + len(text[0])
+                else:
+                    length = length + len(text[0])
+                    sequences.append(add + " " + str(length))
+                    total_len = total_len + length
+            else:
+                length = length + len(text[0])
+                sequences.append(add + " " + str(length))
+                total_len = total_len + length
+        text.pop(0)
+    return sequences
+
+if __name__ == "__main__":
+    with open("/Users/michm/Documents/BENG 182/Assignment 1/datafile.txt") as f:
+        text = f.read()
+    result = text.split("\n\n")
+    result[len(result)-1] = result[len(result)-1].replace("\n", "")
+    sequences = cat(result)
+
+    out = open("/Users/michm/Documents/BENG 182/Assignment 1/cat_out.txt","w")
+    for each in sequences:
+        out.write(each + "\n")
+    out.close()

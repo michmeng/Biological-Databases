@@ -1,0 +1,30 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+if __name__== "__main__":
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/plot_data_1000") as f:
+        lines = [line.strip() for line in f]
+
+    r_1 = lines[0].split(" ")
+    r_2 = lines[1].split(" ")
+
+    res_1 = []
+    res_2 = []
+    for each in r_1:
+        res_1.append(int(each))
+    for each in r_2:
+        res_2.append(int(each))
+
+    plt.hist(res_1)
+    plt.xlabel('Alignment Length')
+    plt.ylabel('Number of Pairs')
+    plt.title('Length 1000: P1')
+    plt.savefig("/Users/michm/Documents/BENG 182/Assignment 2/Plots/1000_P1.png")
+    plt.show()
+
+    plt.hist(res_2)
+    plt.xlabel('Alignment Length')
+    plt.ylabel('Number of Pairs')
+    plt.title('Length 1000: P2')
+    plt.savefig("/Users/michm/Documents/BENG 182/Assignment 2/Plots/1000_P2.png")
+    plt.show()

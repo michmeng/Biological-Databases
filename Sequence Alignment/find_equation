@@ -1,0 +1,45 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import statistics
+from scipy.interpolate import UnivariateSpline
+
+if __name__== "__main__":
+    dir = "/Users/michm/Documents/BENG 182/Assignment 2/Plot Data/plot_data_"
+    files = ["100", "200", "300", "400", "500", "600", "700", "800", "1000"]
+    p1 = []
+    p2 = []
+    for i in range(len(files)):
+        with open(dir + files[i]) as f:
+            lines = [line.strip() for line in f]
+
+        r_1 = lines[0].split(" ")
+        r_1 = [int(i) for i in r_1]
+        p1_med =statistics.median(r_1)
+        r_2 = lines[1].split(" ")
+        r_2 = [int(i) for i in r_2]
+        p2_med =statistics.median(r_2)
+        p1.append(p1_med)
+        p2.append(p2_med)
+        f.close()
+    p1.insert(8, 1217.0)
+    p2.insert(8, 9.0)
+    p1 = [int(i) for i in p1]
+    p2 = [int(i) for i in p2]
+
+
+# plot p1 equation
+x = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+y = p1
+plt.plot(x, y, 'o')
+m, b = np.polyfit(x, y, 1)
+best_fit = []
+for each in x:
+    best_fit.append(m*each + b)
+print (m)
+print (b)
+plt.plot(x, best_fit)
+plt.xlabel('Sequence Length')
+plt.ylabel('Alignment Length')
+plt.title('P1 Sequence Length vs. Optimal Alignment Length')
+plt.savefig("/Users/michm/Documents/BENG 182/Assignment 2/Plots/P1_equation.png")
+plt.show()

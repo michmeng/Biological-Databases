@@ -1,0 +1,113 @@
+def backtracker(str1,str2, match, mismatch, indel):
+    backtrack = [[0 for i in range(len(str2) + 1)] for j in range(len(str1) + 1)]
+    #initialize matrix and 0 row and column
+    score = [[0 for i in range(len(str2) + 1)] for j in range(len(str1) + 1)]
+    max_score = 0
+    max_location = []
+
+    for i in range(1, len(str1)+1):
+        for j in range(1, len(str2)+1):
+            check1 = score[i-1][j] - indel
+            check2 = score[i][j-1] - indel
+            dec = -1 * mismatch
+            if str1[i-1] == str2[j-1]:
+                dec = match
+            check3 = score[i-1][j-1] + dec
+            score[i][j] = max(0, check1, check2, check3)
+
+            if score[i][j] >= max_score:
+                max_score = score[i][j]
+                max_location = []
+                max_location.append(i)
+                max_location.append(j)
+            if score[i][j] == score[i-1][j] - indel:
+                backtrack[i][j] = "D"
+            elif score[i][j] == score[i][j-1] - indel:
+                backtrack[i][j] = "R"
+            elif score[i][j] == score[i-1][j-1] + dec:
+                backtrack[i][j] = "DIAG"
+
+    return backtrack, max_score, max_location
+
+def local_allignment(str1,str2, match, mismatch, indel):
+    l_allign = []
+    l_allign_two = []
+    if len(str1) > len(str2):
+        l_string = str1
+        s_string = str2
+    else:
+        l_string = str2
+        s_string = str1
+
+    l_string = str1
+    s_string = str2
+
+    backtrack, max_score, max_location = backtracker(l_string,s_string, match, mismatch, indel)
+    i = max_location[0]
+    j = max_location[1]
+    allignment = ""
+
+    check = False
+    while i > 0 and j > 0:
+        if backtrack[i][j] == "DIAG":
+            l_allign.append(l_string[i-1])
+            l_allign_two.append(s_string[j-1])
+            i = i-1
+            j = j-1
+        elif backtrack[i][j] == "D":
+            l_allign.append(l_string[i-1])
+            l_allign_two.append("-")
+            i = i-1
+        elif backtrack[i][j] == "R" :
+            l_allign.append("-")
+            l_allign_two.append(s_string[j-1])
+            j = j-1
+        elif backtrack[i][j] == 0:
+            break
+
+
+    l_allign = l_allign[::-1]
+    l_allign_two = l_allign_two[::-1]
+
+
+    allign_one = "".join(l_allign)
+    allign_two = "".join(l_allign_two)
+
+    if len(str1) > len(str2):
+        str1 = allign_one
+        str2 = allign_two
+    else:
+        str2 = allign_one
+        str1 = allign_two
+
+    return max_score, str1, str2
+
+if __name__== "__main__":
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/seq_pairs.txt") as f:
+        lines = [line.strip() for line in f]
+    output_seq = open("/Users/michm/Documents/BENG 182/Assignment 2/Change P/-1.25_pen","w")
+    results_p1 = []
+    results_p2 = []
+    match_1, mismatch_1, indel_1 = 1, 1.25, 1.25
+    # match_2, mismatch_2, indel_2 = 1, 30, 20
+    i = 0
+    while i < len(lines):
+        if i % 10 == 0:
+            print ("Finished: " + str(i))
+        in_one = lines[i]
+        in_two = lines[i+1]
+        score_1, str1_1, allignment_1 =  local_allignment(in_one, in_two, match_1, mismatch_1, indel_1)
+        # score_2, str1_2, allignment_2 =  local_allignment(in_one, in_two, match_2, mismatch_2, indel_2)
+        results_p1.append(len(str1_1))
+        # results_p2.append(len(str1_2))
+        i = i + 2
+    str_res_1 = ""
+    for each in results_p1:
+        str_res_1 = str_res_1 + str(each) + " "
+    # str_res_2 = ""
+    # for each in results_p2:
+    #     str_res_2 = str_res_2 + str(each) + " "
+    # output_seq.write(str_res_1 + "\n")
+    # output_seq.write(str_res_2)
+
+    output_seq.write(str_res_1)

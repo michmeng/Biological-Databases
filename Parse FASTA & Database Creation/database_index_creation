@@ -1,0 +1,47 @@
+def all_seq(text):
+    c_seq = ""
+    while len(text) > 1:
+        if ">" in text[0]:
+            text.pop(0)
+        else:
+            if ">" in text[1]:
+                c_seq = c_seq + text[0] + "@"
+                text.pop(0)
+            else:
+                c_seq = c_seq + text[0]
+                text.pop(0)
+    c_seq = c_seq + text[-1]
+    return c_seq
+
+def gi_num_and_offset(text, c_seq):
+    seq = []
+    headers = [each for each in text if each[0] == ">"]
+    starts = [(i+1) for i, letter in enumerate(c_seq) if letter == "@"]
+    starts.insert(0, 0)
+    count = 0
+    for each in headers:
+        each = each[4:]
+        ind = each.index("|")
+        seq.append(str(each[0:ind]) + "    " + str(starts[count]))
+        count = count + 1
+    return seq
+
+
+if __name__ == "__main__":
+    with open("/Users/michm/Documents/BENG 182/Assignment 1/datafile.txt") as f:
+        text = f.read()
+    result = text.split("\n\n")
+    result_two = text.split("\n\n")
+    result[len(result)-1] = result[len(result)-1].replace("\n", "")
+    result_two[len(result)-1] = result_two[len(result)-1].replace("\n", "")
+
+    output_seq = open("/Users/michm/Documents/BENG 182/Assignment 1/data.seq","w")
+    c_seq = all_seq(result)
+    output_seq.write(c_seq)
+    output_seq.close()
+
+    output_in = open("/Users/michm/Documents/BENG 182/Assignment 1/data.in","w")
+    gi_num_and_off = gi_num_and_offset(result_two, c_seq)
+    for each in gi_num_and_off:
+        output_in.write(each + "\n")
+    output_in.close()

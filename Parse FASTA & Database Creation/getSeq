@@ -1,0 +1,21 @@
+def getSeq(in_file, text, query):
+    check = text.index(query)
+    for i in range(0, len(in_file)-1):
+        if int(in_file[i][1]) <= check and int(in_file[i+1][1]) > check:
+             return in_file[i][0]
+    return
+
+if __name__ == "__main__":
+    with open("/Users/michm/Documents/BENG 182/Assignment 1/data.in") as f:
+        in_f = [line.rstrip() for line in f]
+    in_file = []
+    for each in in_f:
+        in_file.append(each.split("    "))
+    with open("/Users/michm/Documents/BENG 182/Assignment 1/data.seq") as file:
+        text = file.read()
+    query = "MHIQITDFGTAKVLSPDS"
+    print (getSeq(in_file, text, query))
+
+    out = open("/Users/michm/Documents/BENG 182/Assignment 1/getSeq_out.txt","w")
+    out.write(getSeq(in_file, text, query))
+    out.close()

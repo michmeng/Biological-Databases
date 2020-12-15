@@ -1,0 +1,45 @@
+def filter(text):
+    result = []
+    while len(text) > 0:
+        new = []
+        if (text[0][0] == ">" and "Rat" in text[0]) or (text[0][0] == ">" and "Mus" in text[0]) or (text[0][0] == ">" and "RAT" in text[0]):
+            # result.append(text[0])
+            new.append(text[0])
+            seq = ""
+            text.pop(0)
+            while text[0][0] != ">":
+                if len(text) > 0:
+                    # result.append(text[0])
+                    # seq = seq + str(text[0])
+                    new.append(text[0])
+                    text.pop(0)
+                else:
+                    # result.append(text[0])
+                    # seq = seq + str(text[0])
+                    new.append(text[0])
+                    text.pop(0)
+                # print (seq)
+                # new.append(seq)
+            result.append(new)
+        else:
+            text.pop(0)
+    return result
+
+if __name__ == "__main__":
+    with open("/Users/michm/Documents/BENG 182/Assignment 1/datafile.txt") as f:
+        text = f.read()
+    result = text.split("\n\n")
+    result[len(result)-1] = result[len(result)-1].replace("\n", "")
+    sequences = filter(result)
+
+    out = open("/Users/michm/Documents/BENG 182/Assignment 1/filter_out.txt","w")
+    for each in sequences:
+        out.write(each[0] + "\n")
+        seq = ""
+        each.pop(0)
+        for s in each:
+            seq = seq + s
+        seqs = [seq[i: i + 60] for i in range(0, len(seq), 60)]
+        for each in seqs:
+            out.write(each + "\n")
+    out.close()

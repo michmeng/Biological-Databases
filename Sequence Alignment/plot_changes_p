@@ -1,0 +1,76 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+if __name__== "__main__":
+    penalties = [-30, -20, -10, -1, -0.5, -0.33, -0.25, 0]
+    avg_len = []
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/Change P/-30_pen") as f:
+        p7 = [line.strip() for line in f]
+    r7 = p7[0].split(" ")
+    res_7 = []
+    for each in r7:
+        res_7.append(int(each))
+    avg_len.append(sum(res_7)/len(res_7))
+
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/Change P/-20_pen") as f:
+        p6 = [line.strip() for line in f]
+    r6 = p6[0].split(" ")
+    res_6 = []
+    for each in r6:
+        res_6.append(int(each))
+    avg_len.append(sum(res_6)/len(res_6))
+
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/Change P/-10_pen") as f:
+        p5 = [line.strip() for line in f]
+    r5 = p5[0].split(" ")
+    res_5 = []
+    for each in r5:
+        res_5.append(int(each))
+    avg_len.append(sum(res_5)/len(res_5))
+
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/Change P/-1_pen") as f:
+        p4 = [line.strip() for line in f]
+    r4 = p4[0].split(" ")
+    res_4 = []
+    for each in r4:
+        res_4.append(int(each))
+    avg_len.append(sum(res_4)/len(res_4))
+
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/Change P/-0.5_pen") as f:
+        p1 = [line.strip() for line in f]
+    r1 = p1[0].split(" ")
+    res_1 = []
+    for each in r1:
+        res_1.append(int(each))
+    avg_len.append(sum(res_1)/len(res_1))
+
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/Change P/-0.33_pen") as f:
+        p3 = [line.strip() for line in f]
+    r3 = p3[0].split(" ")
+    res_3 = []
+    for each in r3:
+        res_3.append(int(each))
+    avg_len.append(sum(res_3)/len(res_3))
+
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/Change P/-0.25_pen") as f:
+        p2 = [line.strip() for line in f]
+    r2 = p2[0].split(" ")
+    res_2 = []
+    for each in r2:
+        res_2.append(int(each))
+    avg_len.append(sum(res_2)/len(res_2))
+
+    with open("/Users/michm/Documents/BENG 182/Assignment 2/Change P/0_pen") as f:
+        p8 = [line.strip() for line in f]
+    r8 = p8[0].split(" ")
+    res_8 = []
+    for each in r8:
+        res_8.append(int(each))
+    avg_len.append(sum(res_8)/len(res_8))
+
+    plt.plot(penalties, avg_len)
+    plt.xlabel('Penalties')
+    plt.ylabel('Length of Alignment')
+    plt.title('Penalties vs. Alignment Length')
+    plt.savefig("/Users/michm/Documents/BENG 182/Assignment 2/Change P/res_plot.png")
+    plt.show()
